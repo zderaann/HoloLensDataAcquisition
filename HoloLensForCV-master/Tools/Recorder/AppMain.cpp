@@ -17,7 +17,7 @@
 #include <codecvt>
 
 
-//#define RECORDER_USE_SPEECH
+#define RECORDER_USE_SPEECH
 
 // By default all sensors are enabled. To only enable individual sensors, simply add types from HoloLensForCV::SensorType.
 std::vector<HoloLensForCV::SensorType> kEnabledSensorTypes = { HoloLensForCV::SensorType::PhotoVideo, 
@@ -38,6 +38,9 @@ using namespace Windows::Storage::Streams;
 using namespace Windows::Graphics::Holographic;
 using namespace Windows::Perception::Spatial;
 using namespace Windows::UI::Input::Spatial;
+
+using namespace Windows::Media::SpeechSynthesis;
+using namespace Windows::Media::Playback;
 
 namespace Recorder
 {
@@ -135,7 +138,7 @@ namespace Recorder
 
     void AppMain::StartRecording()
     {
-        std::unique_lock<std::mutex> lock(_startStopRecordingMutex);
+      std::unique_lock<std::mutex> lock(_startStopRecordingMutex);
 
         if (!_photoVideoMediaFrameSourceGroupStarted || !_researchModeMediaFrameSourceGroupStarted || _sensorFrameRecorderStarted)
         {
@@ -300,35 +303,62 @@ namespace Recorder
 
     void AppMain::SaySentence(Platform::StringReference sentence)
     {
-        concurrency::create_task(
-            _speechSynthesizer->SynthesizeTextToStreamAsync(sentence),
-            concurrency::task_continuation_context::use_current()).
-            then([this](
-                concurrency::task<Windows::Media::SpeechSynthesis::SpeechSynthesisStream^> synthesisStreamTask)
-                {
-                    try
-                    {
-                        auto stream =
-                            synthesisStreamTask.get();
+      MediaPlayer^ player = ref new MediaPlayer();
 
-                        auto hr =
-                            _speechSynthesisSound.Initialize(
-                                stream,
-                                0 /* loopCount */);
+      concurrency::create_task(_speechSynthesizer->SynthesizeTextToStreamAsync(sentence))
+        .then([this, player](SpeechSynthesisStream^ stream)
+          {
+            player->SetStreamSource(stream);
+            player->Play();
+          });
 
-                        if (SUCCEEDED(hr))
-                        {
-                            _speechSynthesisSound.SetEnvironment(HrtfEnvironment::Small);
-                            _speechSynthesisSound.Start();
-                        }
-                    }
-                    catch (Platform::Exception ^ exception)
-                    {
-                        dbg::trace(
-                            L"Exception while trying to synthesize speech: %s",
-                            exception->Message->Data());
-                    }
-                });
+
+        //// The media object for controlling and playing audio.
+        //auto media = ref new Windows::UI::Xaml::Controls::MediaElement();
+        //// The string to speak.
+        //Platform::String^ text = "Fuck";
+
+        //// Generate the audio stream from plain text.
+        //auto speakTask = concurrency::create_task(_speechSynthesizer->SynthesizeTextToStreamAsync(text));
+        //speakTask.then([this, text, media](Windows::Media::SpeechSynthesis::SpeechSynthesisStream^ speechStream)
+        //  {
+        //    // Send the stream to the media object.
+        //    // media === MediaElement XAML object.
+        //    media->SetSource(speechStream, speechStream->ContentType);
+        //    media->AutoPlay = true;
+        //    media->Play();
+        //  });
+
+
+        //concurrency::create_task(
+        //    _speechSynthesizer->SynthesizeTextToStreamAsync(sentence),
+        //    concurrency::task_continuation_context::use_current()).
+        //    then([this](
+        //        concurrency::task<Windows::Media::SpeechSynthesis::SpeechSynthesisStream^> synthesisStreamTask)
+        //        {
+        //            try
+        //            {
+        //                auto stream =
+        //                    synthesisStreamTask.get();
+
+        //                auto hr =
+        //                    _speechSynthesisSound.Initialize(
+        //                        stream,
+        //                        0 /* loopCount */);
+
+        //                if (SUCCEEDED(hr))
+        //                {
+        //                    _speechSynthesisSound.SetEnvironment(HrtfEnvironment::Small);
+        //                    _speechSynthesisSound.Start();
+        //                }
+        //            }
+        //            catch (Platform::Exception ^ exception)
+        //            {
+        //                dbg::trace(
+        //                    L"Exception while trying to synthesize speech: %s",
+        //                    exception->Message->Data());
+        //            }
+        //         });
     }
 
     void AppMain::OnSpeechResultGenerated(

@@ -172,8 +172,8 @@ def convert_images(folder):
 username = sys.argv[1]
 password = sys.argv[2]
 folder = sys.argv[3]
-if not folder[-1] == "/":
-    folder = folder + "/"
+if not folder[-1] == '/':
+    folder = folder + '/'
 IP = sys.argv[4]
 delAfter = sys.argv[5]
 
