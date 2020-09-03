@@ -6,7 +6,7 @@
     xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
     xmlns:uap2="http://schemas.microsoft.com/appx/manifest/uap/windows10/2"
     IgnorableNamespaces="uap mp rescap uap2">
-  <Identity Name="7A37D94C-C432-4875-8C57-FA185E1C92B4" Publisher="CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US" Version="1.0.0.0" />
+  <Identity Name="7A37D94C-C432-4875-8C57-FA185E1C92B4" Publisher="CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US" Version="1.0.1.0" />
   <mp:PhoneIdentity PhoneProductId="7A37D94C-C432-4875-8C57-FA185E1C92B4" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>CV: Recorder</DisplayName>
@@ -14,7 +14,7 @@
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
   <Dependencies>
-    <TargetDeviceFamily Name="Windows.Holographic" MinVersion="10.0.14393.0" MaxVersionTested="10.0.14393.0" />
+    <TargetDeviceFamily Name="Windows.Holographic" MinVersion="10.0.17763.0" MaxVersionTested="10.0.18362.0" />
   </Dependencies>
   <Resources>
     <Resource Language="x-generate" />

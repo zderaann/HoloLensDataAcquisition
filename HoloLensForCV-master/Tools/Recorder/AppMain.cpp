@@ -17,7 +17,7 @@
 #include <codecvt>
 
 
-#define RECORDER_USE_SPEECH
+//#define RECORDER_USE_SPEECH
 
 // By default all sensors are enabled. To only enable individual sensors, simply add types from HoloLensForCV::SensorType.
 std::vector<HoloLensForCV::SensorType> kEnabledSensorTypes = { HoloLensForCV::SensorType::PhotoVideo, 
