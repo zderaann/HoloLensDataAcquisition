@@ -3,7 +3,7 @@ It is used to obtain synchronised images from HoloLens sensors, device positions
 The HoloLensDataExtraction script is used to download all this data from HoloLens.
 
 
-Open HoloLensForCV with Visual studio 2019.
+Open HoloLensForCV with Visual studio 2019. Make sure you have Research mode enabled on your HoloLens.
 Set:
 	solution configuration to: Release, 
 	solution platforms to: x86,
@@ -28,3 +28,5 @@ Arguments are: Username for HoloLens Portal,
                bool: Delete after download (1 = delete)
  Example:
          python HoloLensDataExtraction.py "username" "password" "D:/Documents/HoloLensData/" "127.0.0.1:10080" "1"
+         
+ If the downloading does not work make sure, you have the newest Windows SDK downloaded and that a process called Windows IP over USB is running.
