@@ -480,14 +480,14 @@ namespace Recorder
 
        // Platform::String^ txt;
 
-        Windows::Storage::StorageFolder^ storageFolder = Windows::Storage::KnownFolders::DocumentsLibrary;
-        concurrency::create_task(storageFolder->GetFileAsync(L"setup.txt")).then([this, holospace](Windows::Storage::StorageFile^ file) {
-            concurrency::create_task(Windows::Storage::FileIO::ReadTextAsync(file)).then([this, holospace](Platform::String^ text) {
+        //Windows::Storage::StorageFolder^ storageFolder = Windows::Storage::KnownFolders::DocumentsLibrary;
+        //concurrency::create_task(storageFolder->GetFileAsync(L"setup.txt")).then([this, holospace](Windows::Storage::StorageFile^ file) {
+        //    concurrency::create_task(Windows::Storage::FileIO::ReadTextAsync(file)).then([this, holospace](Platform::String^ text) {
 
-                Platform::String^ ip;
-                Platform::String^ port;
+                Platform::String^ ip = "";
+                Platform::String^ port = "";
 
-                std::wstring fooW(text->Begin());
+                /*std::wstring fooW(text->Begin());
                 std::string fooA(fooW.begin(), fooW.end());
 
                 std::istringstream f(fooA);
@@ -499,7 +499,7 @@ namespace Recorder
                 std::getline(f, str_port);
 
                 ip = stringToPlatformString(str_ip);
-                port = stringToPlatformString(str_port);
+                port = stringToPlatformString(str_port);*/
 
 
 
@@ -545,9 +545,9 @@ namespace Recorder
                     _researchModeMediaFrameSourceGroupStarted = true;
                     });
 
-                });
+        //        });
 
-            });
+        //    });
 
     }
 }
