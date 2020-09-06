@@ -5,6 +5,10 @@ import os
 
 np.set_printoptions(threshold=sys.maxsize)
 folder = sys.argv[1]
+
+if not folder[-1] == '/':
+    folder = folder + '/'
+
 uvdatafile = sys.argv[2]
 
 uvfile = open(uvdatafile, 'r')
@@ -42,17 +46,17 @@ for r, d, f in os.walk(folder):
             objfile = open(folder + timestamp + ".obj", 'w')
             objfile.write("o Object.1\n")
 
-            for i in range(0,450):
-                for j in range(0,448):
-                    r = values[i,j]
+            for i in range(0, 450):
+                for j in range(0, 448):
+                    r = values[i, j]
                     if not r == 0:
                         uv = uvdata["(" + str(j) + "," + str(i) + ")"]
                         u = uv[0]
                         v = uv[1]
                         d = r / math.sqrt(u * u + v * v + 1)
                         #print(d)
-                        x = d * v
-                        y = d * u
+                        x = d * u
+                        y = d * v
                         z = d * 1
                         objfile.write("v " + str(x) + " " + str(y) + " " + str(z) + "\n")
                         #print("Written to file")
