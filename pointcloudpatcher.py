@@ -1,6 +1,7 @@
 import sys
 import os
 import numpy as np
+import re
 
 """
 CSV DATA:
@@ -70,7 +71,8 @@ objcount = 1
 
 for r, d, f in os.walk(folder):
     for file in f:
-        if '.obj' in file and file != "out.obj":
+        match = re.search('world_', file)
+        if '.obj' in file and file != "out.obj" and match is None:
             print("Processing file: " + file)
             name = file.split(".")[0]
             objfile = open(r + file, 'r')
@@ -104,6 +106,9 @@ for r, d, f in os.walk(folder):
                                       [float(poseinfo[49]), float(poseinfo[50]), float(poseinfo[51]), float(poseinfo[52])],
                                       [float(poseinfo[53]), float(poseinfo[54]), float(poseinfo[55]), float(poseinfo[56])]])
 
+            # save transformed point cloud in world coordinate system
+            localoutfile = open(r + 'world_' + file, 'w')
+            localoutfile.write("o Object.1\n")
 
             for line in objlines:
                 parsed = line.split(" ")
@@ -111,11 +116,11 @@ for r, d, f in os.walk(folder):
                 #coords = np.array([float(parsed[0]), float(parsed[1]), float(parsed[2])])
                 #newcoords = np.matmul(rotation, np.transpose(coords)) + np.transpose(position)
                 newcoords = np.matmul(np.matmul(frametoorigin, cameraviewtransform), np.transpose(coords))
-
+                localoutfile.write("v " + str(newcoords[0]) + " " + str(newcoords[1]) + " " + str(newcoords[2]) + "\n")
                 outfile.write("v " + str(newcoords[0]) + " " + str(newcoords[1]) + " " + str(newcoords[2]) + "\n")
 
+            localoutfile.write("\n")
+            localoutfile.close()
             outfile.write("\n")
-
-
 
 outfile.close()
