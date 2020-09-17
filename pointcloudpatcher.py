@@ -116,8 +116,8 @@ for r, d, f in os.walk(folder):
                 #coords = np.array([float(parsed[0]), float(parsed[1]), float(parsed[2])])
                 #newcoords = np.matmul(rotation, np.transpose(coords)) + np.transpose(position)
                 newcoords = np.matmul(np.matmul(frametoorigin, cameraviewtransform), np.transpose(coords))
-                localoutfile.write("v " + str(newcoords[0]) + " " + str(newcoords[1]) + " " + str(newcoords[2]) + "\n")
-                outfile.write("v " + str(newcoords[0]) + " " + str(newcoords[1]) + " " + str(newcoords[2]) + "\n")
+                localoutfile.write("v " + str(newcoords[0]) + " " + str(-1 * newcoords[1]) + " " + str(newcoords[2]) + "\n")
+                outfile.write("v " + str(newcoords[0]) + " " + str(-1 * newcoords[1]) + " " + str(newcoords[2]) + "\n")
 
             localoutfile.write("\n")
             localoutfile.close()
