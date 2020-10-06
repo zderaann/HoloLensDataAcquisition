@@ -26,6 +26,9 @@
     <Image Include="Assets\Wide310x150Logo.scale-200.png">
       <Filter>Assets</Filter>
     </Image>
+    <Filter Include="Sounds">
+      <UniqueIdentifier>{0405f8b9-78c4-4ad7-a22b-fe7df150492c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />

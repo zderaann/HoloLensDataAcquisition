@@ -27,8 +27,8 @@ namespace HoloLensForCV
 	public:
 		SensorFrameRecorderSink(
 			_In_ SensorType sensorType,
-			_In_ Platform::String^ sensorName, 
-			_In_ Platform::String^ ip, 
+			_In_ Platform::String^ sensorName,
+			_In_ Platform::String^ ip,
 			_In_  Platform::String^ port,
 			_In_  Windows::Graphics::Holographic::HolographicSpace^ holospace);
 
@@ -38,7 +38,7 @@ namespace HoloLensForCV
 
 		virtual void Send(_In_ SensorFrame^ sensorFrame);
 
-		
+
 
 
 	internal:

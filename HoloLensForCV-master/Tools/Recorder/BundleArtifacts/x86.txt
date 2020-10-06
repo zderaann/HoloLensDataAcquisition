@@ -1,2 +1,2 @@
-MainPackage=D:\Help\HoloLensDataAcquisition\HoloLensForCV-master\Release\Recorder\Recorder_1.0.2.0_Win32.msix
-SymbolPackage=d:\Help\HoloLensDataAcquisition\HoloLensForCV-master\Tools\Recorder\Release\Symbols\Recorder_1.0.2.0_Win32.appxsym
+MainPackage=D:\Documents\Work\MeshCollecting\HoloLensForCV-master\Release\Recorder\Recorder_1.0.1.0_Win32.appx
+SymbolPackage=D:\Documents\Work\MeshCollecting\HoloLensForCV-master\Tools\Recorder\Release\Symbols\Recorder_1.0.1.0_Win32.appxsym

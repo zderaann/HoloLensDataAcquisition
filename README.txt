@@ -24,9 +24,26 @@ The script was tested in python version 3.6.5.
 Arguments are: Username for HoloLens Portal,
                Password for HoloLens Portal,
                Folder, where to download,
-               HoloLensIP(127.0.0.1:10080, if using USB),
+               HoloLensIP(127.0.0.1:10080, if using USB, or the IP of the device),
                bool: Delete after download (1 = delete)
  Example:
          python HoloLensDataExtraction.py "username" "password" "D:/Documents/HoloLensData/" "127.0.0.1:10080" "1"
          
  If the downloading does not work make sure, you have the newest Windows SDK downloaded and that a process called Windows IP over USB is running.
+
+ To convert depth data (long_throw_depth) to a pointcloud use the DepthDataToPointcloud.py script. 
+ This script requires numpy and takes two arguments: the folder with depth data and the uvdata.txt file, that is included in this repository.
+ The output for each depth recording (.pgm file) is an .obj file pointcloud in the depth data folder.
+ 
+ Example: 
+ 
+ 	python DepthDataToPointcloud.py "D:/Documents/HoloLensData/long_throw_depth/" "D:/Documents/HoloLensDataAcquisition/uvdata.txt"
+ 
+ 
+ To merge pointclouds from depth data to one pointcloud run the pointcloudpatcher.py script. This script needs numpy installed and requires two arguments: the folder with converted depth data (.obj files) and the long_throw_depth.csv file.
+ The output is one file called "out.obj" loocated in the depth data folder.
+ 
+ Example:
+ 
+ 	python pointcloudpatcher.py "D:/Documents/HoloLensData/long_throw_depth/" "D:/Documents/HoloLensData/long_throw_depth.csv"
+

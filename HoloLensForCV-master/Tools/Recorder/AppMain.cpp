@@ -15,15 +15,17 @@
 #include <sstream>
 #include <locale>
 #include <codecvt>
+#include <experimental/coroutine>
+#include <mfmediaengine.h>
 
 
 //#define RECORDER_USE_SPEECH
 
 // By default all sensors are enabled. To only enable individual sensors, simply add types from HoloLensForCV::SensorType.
-std::vector<HoloLensForCV::SensorType> kEnabledSensorTypes = { HoloLensForCV::SensorType::PhotoVideo, 
-                                                               HoloLensForCV::SensorType::VisibleLightLeftLeft, 
-                                                               HoloLensForCV::SensorType::VisibleLightLeftFront, 
-                                                               HoloLensForCV::SensorType::VisibleLightRightFront, 
+std::vector<HoloLensForCV::SensorType> kEnabledSensorTypes = { HoloLensForCV::SensorType::PhotoVideo,
+                                                               HoloLensForCV::SensorType::VisibleLightLeftLeft,
+                                                               HoloLensForCV::SensorType::VisibleLightLeftFront,
+                                                               HoloLensForCV::SensorType::VisibleLightRightFront,
                                                                HoloLensForCV::SensorType::VisibleLightRightRight,
                                                                HoloLensForCV::SensorType::LongThrowToFDepth };
 //std::vector<HoloLensForCV::SensorType> kEnabledSensorTypes = { HoloLensForCV::SensorType::PhotoVideo };
@@ -138,7 +140,7 @@ namespace Recorder
 
     void AppMain::StartRecording()
     {
-      std::unique_lock<std::mutex> lock(_startStopRecordingMutex);
+        std::unique_lock<std::mutex> lock(_startStopRecordingMutex);
 
         if (!_photoVideoMediaFrameSourceGroupStarted || !_researchModeMediaFrameSourceGroupStarted || _sensorFrameRecorderStarted)
         {
@@ -266,7 +268,7 @@ namespace Recorder
                                                     startAsyncTask.get();
                                                     return true;
                                                 }
-                                                catch (Platform::Exception ^ exception)
+                                                catch (Platform::Exception^ exception)
                                                 {
                                                     dbg::trace(
                                                         L"Exception while trying to start speech recognition: %s",
@@ -285,7 +287,7 @@ namespace Recorder
                                     return concurrency::create_task([this] { return false; });
                                 }
                             }
-                            catch (Platform::Exception ^ exception)
+                            catch (Platform::Exception^ exception)
                             {
                                 // Note that if you get an "Access is denied" exception, you might need to enable the microphone 
                                 // privacy setting on the device and/or add the microphone capability to your app manifest.
@@ -303,14 +305,14 @@ namespace Recorder
 
     void AppMain::SaySentence(Platform::StringReference sentence)
     {
-      MediaPlayer^ player = ref new MediaPlayer();
+        /*MediaPlayer^ player = ref new MediaPlayer();
 
-      concurrency::create_task(_speechSynthesizer->SynthesizeTextToStreamAsync(sentence))
-        .then([this, player](SpeechSynthesisStream^ stream)
-          {
-            player->SetStreamSource(stream);
-            player->Play();
-          });
+        concurrency::create_task(_speechSynthesizer->SynthesizeTextToStreamAsync(sentence))
+            .then([this, player](SpeechSynthesisStream^ stream)
+                {
+                    player->SetStreamSource(stream);
+                    player->Play();
+                });*/
 
 
         //// The media object for controlling and playing audio.
@@ -330,35 +332,35 @@ namespace Recorder
         //  });
 
 
-        //concurrency::create_task(
-        //    _speechSynthesizer->SynthesizeTextToStreamAsync(sentence),
-        //    concurrency::task_continuation_context::use_current()).
-        //    then([this](
-        //        concurrency::task<Windows::Media::SpeechSynthesis::SpeechSynthesisStream^> synthesisStreamTask)
-        //        {
-        //            try
-        //            {
-        //                auto stream =
-        //                    synthesisStreamTask.get();
+        concurrency::create_task(
+            _speechSynthesizer->SynthesizeTextToStreamAsync(sentence),
+            concurrency::task_continuation_context::use_current()).
+            then([this](
+                concurrency::task<Windows::Media::SpeechSynthesis::SpeechSynthesisStream^> synthesisStreamTask)
+                {
+                    try
+                    {
+                        auto stream =
+                            synthesisStreamTask.get();
 
-        //                auto hr =
-        //                    _speechSynthesisSound.Initialize(
-        //                        stream,
-        //                        0 /* loopCount */);
+                        auto hr =
+                            _speechSynthesisSound.Initialize(
+                                stream,
+                                0 /* loopCount */);
 
-        //                if (SUCCEEDED(hr))
-        //                {
-        //                    _speechSynthesisSound.SetEnvironment(HrtfEnvironment::Small);
-        //                    _speechSynthesisSound.Start();
-        //                }
-        //            }
-        //            catch (Platform::Exception ^ exception)
-        //            {
-        //                dbg::trace(
-        //                    L"Exception while trying to synthesize speech: %s",
-        //                    exception->Message->Data());
-        //            }
-        //         });
+                        if (SUCCEEDED(hr))
+                        {
+                            _speechSynthesisSound.SetEnvironment(HrtfEnvironment::Small);
+                            _speechSynthesisSound.Start();
+                        }
+                    }
+                    catch (Platform::Exception ^ exception)
+                    {
+                        dbg::trace(
+                            L"Exception while trying to synthesize speech: %s",
+                            exception->Message->Data());
+                    }
+                 });
     }
 
     void AppMain::OnSpeechResultGenerated(
@@ -484,66 +486,66 @@ namespace Recorder
         //concurrency::create_task(storageFolder->GetFileAsync(L"setup.txt")).then([this, holospace](Windows::Storage::StorageFile^ file) {
         //    concurrency::create_task(Windows::Storage::FileIO::ReadTextAsync(file)).then([this, holospace](Platform::String^ text) {
 
-                Platform::String^ ip = "";
-                Platform::String^ port = "";
+        Platform::String^ ip = "";
+        Platform::String^ port = "";
 
-                /*std::wstring fooW(text->Begin());
-                std::string fooA(fooW.begin(), fooW.end());
+        /*std::wstring fooW(text->Begin());
+        std::string fooA(fooW.begin(), fooW.end());
 
-                std::istringstream f(fooA);
-                std::string str_ip;
-                std::string str_port;
-                std::string tmp;
+        std::istringstream f(fooA);
+        std::string str_ip;
+        std::string str_port;
+        std::string tmp;
 
-                std::getline(f, str_ip, '\r');
-                std::getline(f, str_port);
+        std::getline(f, str_ip, '\r');
+        std::getline(f, str_port);
 
-                ip = stringToPlatformString(str_ip);
-                port = stringToPlatformString(str_port);*/
+        ip = stringToPlatformString(str_ip);
+        port = stringToPlatformString(str_port);*/
 
 
 
-                if (kEnabledSensorTypes.empty())
+        if (kEnabledSensorTypes.empty())
+        {
+            _sensorFrameRecorder->EnableAll(ip, port, holospace);
+            _photoVideoMediaFrameSourceGroup->EnableAll();
+            _researchModeMediaFrameSourceGroup->EnableAll();
+        }
+        else
+        {
+            for (const auto enabledSensorType : kEnabledSensorTypes)
+            {
+                _sensorFrameRecorder->Enable(enabledSensorType, ip, port, holospace);
+                if (enabledSensorType == HoloLensForCV::SensorType::PhotoVideo)
                 {
-                    _sensorFrameRecorder->EnableAll(ip, port, holospace);
-                    _photoVideoMediaFrameSourceGroup->EnableAll();
-                    _researchModeMediaFrameSourceGroup->EnableAll();
+                    _photoVideoMediaFrameSourceGroup->Enable(enabledSensorType);
                 }
                 else
                 {
-                    for (const auto enabledSensorType : kEnabledSensorTypes)
-                    {
-                        _sensorFrameRecorder->Enable(enabledSensorType, ip, port, holospace);
-                        if (enabledSensorType == HoloLensForCV::SensorType::PhotoVideo)
-                        {
-                            _photoVideoMediaFrameSourceGroup->Enable(enabledSensorType);
-                        }
-                        else
-                        {
-                            _researchModeMediaFrameSourceGroup->Enable(enabledSensorType);
-                        }
-                    }
+                    _researchModeMediaFrameSourceGroup->Enable(enabledSensorType);
                 }
+            }
+        }
 
-                //
-                // Start the media frame source groups.
-                //
+        //
+        // Start the media frame source groups.
+        //
 
-                auto startPhotoVideoMediaFrameSourceGroupTask =
-                    concurrency::create_task(
-                        _photoVideoMediaFrameSourceGroup->StartAsync());
+        auto startPhotoVideoMediaFrameSourceGroupTask =
+            concurrency::create_task(
+                _photoVideoMediaFrameSourceGroup->StartAsync());
 
-                startPhotoVideoMediaFrameSourceGroupTask.then([&]() {
-                    _photoVideoMediaFrameSourceGroupStarted = true;
-                    });
+        startPhotoVideoMediaFrameSourceGroupTask.then([&]() {
+            _photoVideoMediaFrameSourceGroupStarted = true;
+            });
 
-                auto startReseachModeMediaFrameSourceGroupTask =
-                    concurrency::create_task(
-                        _researchModeMediaFrameSourceGroup->StartAsync());
+        auto startReseachModeMediaFrameSourceGroupTask =
+            concurrency::create_task(
+                _researchModeMediaFrameSourceGroup->StartAsync());
 
-                startReseachModeMediaFrameSourceGroupTask.then([&]() {
-                    _researchModeMediaFrameSourceGroupStarted = true;
-                    });
+        startReseachModeMediaFrameSourceGroupTask.then([&]() {
+            _researchModeMediaFrameSourceGroupStarted = true;
+            });
 
         //        });
 

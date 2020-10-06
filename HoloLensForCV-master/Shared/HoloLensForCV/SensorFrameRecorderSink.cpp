@@ -94,7 +94,6 @@ namespace HoloLensForCV
 		/*if (sensorType == SensorType::PhotoVideo) {
 			_meshObserver = MeshObserver(NUMOFTRIANGLES, nullptr, nullptr, holospace);
 		}
-
 		_frameCount = MESHSTEP - 1;*/
 
 	}
@@ -271,7 +270,6 @@ namespace HoloLensForCV
 			}
 
 			/*_frameCount++;
-
 			if (_frameCount == MESHSTEP) {
 				_frameCount = 0;
 				auto _this = this;
@@ -286,7 +284,7 @@ namespace HoloLensForCV
 
 		}
 
-		else if(_sensorType == SensorType::VisibleLightLeftFront || _sensorType == SensorType::VisibleLightLeftLeft || _sensorType == SensorType::VisibleLightRightFront || _sensorType == SensorType::VisibleLightRightRight) {
+		else if (_sensorType == SensorType::VisibleLightLeftFront || _sensorType == SensorType::VisibleLightLeftLeft || _sensorType == SensorType::VisibleLightRightFront || _sensorType == SensorType::VisibleLightRightRight) {
 			//dbg::trace(L"%s: Still alive\n", _sensorType.ToString()->Data());
 			if (_sensorType == SensorType::VisibleLightLeftLeft) {
 				bool res = SyncStuff(_frameArrivedVLC_LL, _sensorType, pv_timestamp, _pv_timestampVLC_LL);

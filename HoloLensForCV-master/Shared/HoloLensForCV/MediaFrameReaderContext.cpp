@@ -124,8 +124,8 @@ namespace HoloLensForCV
 
         //Get location and rotation
         
-
-        Windows::Perception::PerceptionTimestamp^ tmstp = Windows::Perception::PerceptionTimestampHelper::FromSystemRelativeTargetTime(Windows::Foundation::TimeSpan());
+        
+        Windows::Perception::PerceptionTimestamp^ tmstp = _spatialPerception->CreatePerceptionTimestamp(timestamp);
         Windows::Perception::Spatial::SpatialLocation^ loc = _spatialPerception->GetSpatialLocator()->TryLocateAtTimestamp(tmstp, _spatialPerception->GetOriginFrameOfReference()->CoordinateSystem);
         if (loc != nullptr) {
             sensorFrame->position = loc->Position;

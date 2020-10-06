@@ -215,7 +215,7 @@
 
             Windows::Storage::Streams::IBuffer^ buffer = Windows::Security::Cryptography::CryptographicBuffer::ConvertStringToBinary(text, Windows::Security::Cryptography::BinaryStringEncoding::Utf8);
 
-            //TADY JE PROBLEM A EXCEPTIONY
+            //WriteText dela problemy, WriteBuffer ne
             concurrency::create_task(Windows::Storage::FileIO::WriteBufferAsync(file, buffer)).then([fullname]() {});
             });
         
@@ -252,11 +252,6 @@
             {
                 if (mesh != nullptr)
                 {
-                    //Mozna odblokovat, mozna ne
-                    /*std::lock_guard<std::mutex> guard(m_meshCollectionLock);
-                    auto& surfaceMesh = m_meshCollection[id];
-                    surfaceMesh.UpdateSurface(mesh);
-                    surfaceMesh.SetIsActive(true);*/
 
                     //------------------------------POSILANI MESHE---------------------------------//
 
