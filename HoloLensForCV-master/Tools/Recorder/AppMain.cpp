@@ -305,33 +305,6 @@ namespace Recorder
 
     void AppMain::SaySentence(Platform::StringReference sentence)
     {
-        /*MediaPlayer^ player = ref new MediaPlayer();
-
-        concurrency::create_task(_speechSynthesizer->SynthesizeTextToStreamAsync(sentence))
-            .then([this, player](SpeechSynthesisStream^ stream)
-                {
-                    player->SetStreamSource(stream);
-                    player->Play();
-                });*/
-
-
-        //// The media object for controlling and playing audio.
-        //auto media = ref new Windows::UI::Xaml::Controls::MediaElement();
-        //// The string to speak.
-        //Platform::String^ text = "Fuck";
-
-        //// Generate the audio stream from plain text.
-        //auto speakTask = concurrency::create_task(_speechSynthesizer->SynthesizeTextToStreamAsync(text));
-        //speakTask.then([this, text, media](Windows::Media::SpeechSynthesis::SpeechSynthesisStream^ speechStream)
-        //  {
-        //    // Send the stream to the media object.
-        //    // media === MediaElement XAML object.
-        //    media->SetSource(speechStream, speechStream->ContentType);
-        //    media->AutoPlay = true;
-        //    media->Play();
-        //  });
-
-
         concurrency::create_task(
             _speechSynthesizer->SynthesizeTextToStreamAsync(sentence),
             concurrency::task_continuation_context::use_current()).
