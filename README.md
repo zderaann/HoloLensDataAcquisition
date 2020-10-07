@@ -15,6 +15,8 @@ Set:
 In solution explorer, right click Recorder(Universal Windows), click Properties.
 Click to Debugging, set Debugger to launch to Remote Machine and type the HoloLens IP address in Machine Name. Click Apply and OK.
 
+Please make sure your HoloLens device has research mode enabled. 
+
 Deploy the App by clicking the Remote Machine button with green triangle.
 
 Once the App has started, begin the capture by Air-tapping. The output console in Visual studio will let you know when/if images are being saved.
